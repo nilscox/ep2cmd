@@ -2,6 +2,7 @@
 
 const argv = require('yargs').argv;
 const app = require('express')();
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
 
@@ -39,6 +40,9 @@ const handler = cmd => (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+if (argv.log)
+  app.use(morgan(argv.log));
 
 const commands = argv._
   .reduce((arr, arg, n) => {
